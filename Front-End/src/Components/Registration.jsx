@@ -19,6 +19,12 @@ function Registration() {
           name='email' 
         />
 
+          <input
+          className='border px-3 py-2 w-[400px]'
+          type="text"
+          placeholder='Name' 
+          name='name'/>    
+
         <input 
           className="border px-3 py-2 w-[400px]" 
           type="password"  
