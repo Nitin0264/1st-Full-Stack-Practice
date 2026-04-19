@@ -13,8 +13,18 @@ app.get("/register", (req, res) => {
   res.render("register");
 });
 
+app.post("/register", (req, res) => {
+  console.log(req.body);
+  res.send("Register data received");
+});
+
 app.get("/login", (req, res) => {
   res.render("login");
+});
+
+app.post("/login", (req, res) => {
+  console.log(req.body);
+  res.send("Login data received");
 });
 
 app.get("/about",(req,res)=>
@@ -22,18 +32,7 @@ app.get("/about",(req,res)=>
   res.send("About page is here")
 })
 
-app.listen(8000,()=>
-{
-  console.log("Running")
-})
-
-app.post("/login", (req, res) => {
-  console.log(req.body);
-  res.send("Login data received");
-});
-
-app.post("/register", (req, res) => {
-  console.log(req.body);
-  res.send("Register data received");
-});
-
+  app.listen(8000,()=>
+  {
+    console.log("Running")
+  })
