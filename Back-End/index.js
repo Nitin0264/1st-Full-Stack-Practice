@@ -1,9 +1,10 @@
 import express from "express";
-
+import cors from "cors";
 const  app = express();
 
 app.set("view engine", "ejs");
-
+app.use(cors());
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/",(req,res)=>{
@@ -23,8 +24,8 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  console.log(req.body);
-  res.send("Login data received");
+// const {email,pwd} = req.body;
+console.log(req.body)
 });
 
 app.get("/about",(req,res)=>
