@@ -1,13 +1,58 @@
 import React, { useState } from 'react'
+import { useNavigate } from "react-router-dom";
+
 import axios from "axios";
 function Login() {
   let [email, setEmail] = useState('')
   let [pwd, setPwd] = useState('')
-  const onSubmitForm = async (event) => {
-    event.preventDefault();
-    let data = await axios.post("http://localhost:8000/login", { email, pwd })
-    console.log(data)
+  // const onSubmitForm = async (event) => {
+  //   event.preventDefault();
+  //   let data = await axios.post("http://localhost:8000/login", { email, pwd })
+  //   console.log(data)
+  // }
+  const navigate = useNavigate();
+ const onSubmitForm = async (event) => {
+  event.preventDefault();
+
+  try {
+    let res = await axios.post("http://localhost:8000/login", {
+      email,
+      pwd
+    });
+
+    console.log(res.data);
+
+    if (res.data.token) {
+      localStorage.setItem("token", res.data.token);
+
+      // 🔥 redirect
+      navigate("/about");
+    } else {
+      alert(res.data.msg);
+    }
+
+  } catch (err) {
+    console.log(err);
   }
+};
+
+  const getProfile = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const res = await axios.get("http://localhost:8000/profile", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      console.log(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+
   return (
     <div className='flex flex-col gap-9 justify-center items-center h-screen '>
 
@@ -37,11 +82,14 @@ function Login() {
             name='pwd'
           />
 
-          <button className='h-[35px] w-[400px] bg-black text-white'>
+          <button type='submit' className='h-[35px] w-[400px] bg-black text-white'>
             Sign IN
           </button>
         </div>
       </form>
+      <button onClick={getProfile} className="bg-blue-500 text-white px-4 py-2 mt-4">
+        Get Profile
+      </button>
 
     </div>
   )
