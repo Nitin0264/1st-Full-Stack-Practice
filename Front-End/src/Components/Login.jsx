@@ -1,98 +1,101 @@
-import React, { useState } from 'react'
-import { useNavigate } from "react-router-dom";
+  import React, { useState } from 'react'
+  import { useNavigate } from "react-router-dom";
 
-import axios from "axios";
-function Login() {
-  let [email, setEmail] = useState('')
-  let [pwd, setPwd] = useState('')
-  // const onSubmitForm = async (event) => {
-  //   event.preventDefault();
-  //   let data = await axios.post("http://localhost:8000/login", { email, pwd })
-  //   console.log(data)
-  // }
-  const navigate = useNavigate();
- const onSubmitForm = async (event) => {
-  event.preventDefault();
+  import axios from "axios";
+  function Login() {
+    let [email, setEmail] = useState('')
+    let [pwd, setPwd] = useState('')
 
-  try {
-    let res = await axios.post("http://localhost:8000/login", {
-      email,
-      pwd
-    });
 
-    console.log(res.data);
+    const navigate = useNavigate();
+    const onSubmitForm = async (event) => {
+      event.preventDefault();
 
-    if (res.data.token) {
-      localStorage.setItem("token", res.data.token);
+      try {
+        let res = await axios.post("http://localhost:8000/login", {
+          email,
+          pwd
+        });
 
-      // 🔥 redirect
-      navigate("/about");
-    } else {
-      alert(res.data.msg);
-    }
+        console.log(res.data);
 
-  } catch (err) {
-    console.log(err);
-  }
-};
+        if (res.data.token) {
+          localStorage.setItem("token", res.data.token);
+  -
 
-  const getProfile = async () => {
-    const token = localStorage.getItem("token");
+          alert("Logged in successfully ");
 
-    try {
-      const res = await axios.get("http://localhost:8000/profile", {
-        headers: {
-          Authorization: `Bearer ${token}`
+        
+          navigate("/about");
+        } else {
+          alert(res.data.msg); // backend message (like wrong password)
         }
-      });
-
-      console.log(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
 
-  return (
-    <div className='flex flex-col gap-9 justify-center items-center h-screen '>
-
-      <h1 className='text-3xl text-center'>Full-Stack</h1>
-
-      <div className='flex flex-col gap-6 items-center justify-center text-center'>
-        <h1 className='text-3xl'>Enter Your Email To Sign In</h1>
-        <p className='text-xl'>or choose another way to sign in</p>
-      </div>
+      } catch (err) {
+        console.log(err);
+        alert("Something went wrong ");
+      }
+    };
 
 
+    const getProfile = async () => {
+      const token = localStorage.getItem("token");
 
-      <form action="" onSubmit={onSubmitForm}>
+      try {
+        const res = await axios.get("http://localhost:8000/profile", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
 
-        <div className='main-section flex flex-col gap-5 items-center justify-center'>
-          <input onChange={(e) => setEmail(e.target.value)}
-            className="border px-3 py-2 w-[400px]"
-            type="email"
-            placeholder='Nitin@gmail.com'
-            name='email'
-          />
+        console.log(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-          <input onChange={(e) => setPwd(e.target.value)}
-            className="border px-3 py-2 w-[400px]"
-            type="password"
-            placeholder='1234'
-            name='pwd'
-          />
 
-          <button type='submit' className='h-[35px] w-[400px] bg-black text-white'>
-            Sign IN
-          </button>
+    return (
+      <div className='flex flex-col gap-9 justify-center items-center h-screen '>
+
+        <h1 className='text-3xl text-center'>Full-Stack</h1>
+
+        <div className='flex flex-col gap-6 items-center justify-center text-center'>
+          <h1 className='text-3xl'>Enter Your Email To Sign In</h1>
+          <p className='text-xl'>or choose another way to sign in</p>
         </div>
-      </form>
-      <button onClick={getProfile} className="bg-blue-500 text-white px-4 py-2 mt-4">
-        Get Profile
-      </button>
 
-    </div>
-  )
-}
 
-export default Login
+
+        <form action="" onSubmit={onSubmitForm}>
+
+          <div className='main-section flex flex-col gap-5 items-center justify-center'>
+            <input onChange={(e) => setEmail(e.target.value)}
+              className="border px-3 py-2 w-[400px]"
+              type="email"
+              placeholder='Nitin@gmail.com'
+              name='email'
+            />
+
+            <input onChange={(e) => setPwd(e.target.value)}
+              className="border px-3 py-2 w-[400px]"
+              type="password"
+              placeholder='1234'
+              name='pwd'
+            />
+
+            <button type='submit' className='h-[35px] w-[400px] bg-black text-white'>
+              Sign IN
+            </button>
+          </div>
+        </form>
+        <button onClick={getProfile} className="bg-blue-500 text-white px-4 py-2 mt-4">
+          Get Profile
+        </button>
+
+      </div>
+    )
+  }
+
+  export default Login

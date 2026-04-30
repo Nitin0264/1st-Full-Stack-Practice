@@ -8,7 +8,7 @@ function About() {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      navigate("/login"); // 🔥 block access
+      navigate("/login"); 
     }
   }, []);
 
@@ -20,7 +20,7 @@ function About() {
   return (
 
     <div className="h-screen flex flex-col justify-center items-center text-3xl gap-5">
-      <h1>Welcome to Dashboard 🚀</h1>
+      <h1>Welcome to Dashboard </h1>
       <button
         onClick={handleLogout}
         className="bg-red-500 text-white px-4 py-2"

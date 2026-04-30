@@ -88,7 +88,6 @@ app.post("/login", async (req, res) => {
     return res.json({ msg: "Wrong password" });
   }
 
-  // 🔥 CREATE TOKEN
   const token = jwt.sign(
     { email: user.email },
     SECRET_KEY,
